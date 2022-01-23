@@ -4,7 +4,7 @@ import json
 import pandas as pd
 import requests
 
-URL = "https://www.twse.com.tw/exchangeReport/MI_INDEX?response=json&date={}&type=ALLBUT0999&_={}"
+URL = "https://www.tpex.org.tw/web/stock/aftertrading/otc_quotes_no1430/stk_wn1430_result.php?l=zh-tw&d={}&se=AL&_={}"
 
 # 網頁瀏覽時, 所帶的 request header 參數, 模仿瀏覽器發送 request
 HEADER = {
@@ -12,8 +12,8 @@ HEADER = {
     "Accept-Encoding": "gzip, deflate, br",
     "Accept-Language": "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7",
     "Connection": "keep-alive",
-    "Host": "www.twse.com.tw",
-    "Referer": "https://www.twse.com.tw/zh/page/trading/exchange/MI_INDEX.html",
+    "Host": "www.tpex.org.tw",
+    "Referer": "https://www.tpex.org.tw/web/stock/aftertrading/otc_quotes_no1430/stk_wn1430.php?l=zh-tw",
     "sec-ch-ua": '" Not;A Brand";v="99", "Google Chrome";v="97", "Chromium";v="97"',
     "sec-ch-ua-mobile": "?0",
     "sec-ch-ua-platform": "Windows",
@@ -34,7 +34,7 @@ def crawler(para):
     )
     if resp.ok:
         resp_data = json.loads(resp.text)
-        data = pd.DataFrame(resp_data["data9"], columns=resp_data["fields9"])
+        data = pd.DataFrame(resp_data["aaData"])
     else:
         data = pd.DataFrame()
     return data
@@ -42,7 +42,7 @@ def crawler(para):
 
 if __name__ == "__main__":
     para = {
-        "crawler_date": "20220121",
+        "crawler_date": "111/01/21",
     }
     data = crawler(para)
     print(data)

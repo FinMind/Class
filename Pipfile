@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 requests = "*"
 pandas = "*"
+black = "*"
 
 [dev-packages]
 
