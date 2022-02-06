@@ -1,5 +1,6 @@
 import datetime
 import json
+import typing
 
 import pandas as pd
 import requests
@@ -25,7 +26,7 @@ HEADER = {
 }
 
 
-def crawler(para):
+def crawler(para:typing.Dict[str, str]) -> pd.DataFrame:
     crawler_date = para.get("crawler_date", "")
     crawler_timestamp = int(datetime.datetime.now().timestamp())
 
