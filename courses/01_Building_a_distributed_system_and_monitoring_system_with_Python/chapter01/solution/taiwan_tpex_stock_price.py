@@ -38,11 +38,21 @@ def crawler(para:typing.Dict[str, str]):
     resp = requests.get(
         url=URL.format(crawler_date, crawler_timestamp), headers=HEADER
     )
+    columns = [
+        "stock_id",
+        "stock_name",
+        "close",
+        "open",
+        "max",
+        "min",
+    ]
     if resp.ok:
         resp_data = json.loads(resp.text)
         data = pd.DataFrame(resp_data["aaData"])
+        data = data[[0, 1, 2, 4, 5, 6]]
     else:
         data = pd.DataFrame()
+    data.columns = columns
     return data
 
 
