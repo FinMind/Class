@@ -14,8 +14,9 @@ def crawler(para:typing.Dict[str, str]) -> pd.DataFrame:
     '''
     Steps:
     1) Get the parameters
-    2) Send the request
-    3) Return dataframe data
+    2) Change the crawler_date parameter format
+    3) Send the request
+    4) Return dataframe data
     '''
     return data
 

@@ -28,7 +28,11 @@ HEADER = {
 
 def crawler(para:typing.Dict[str, str]):
     crawler_date = para.get("crawler_date", "")
-
+    crawler_date = crawler_date.replace(
+        crawler_date.split("-")[0],
+        str(int(crawler_date.split("-")[0]) - 1911)
+    )
+    crawler_date = crawler_date.replace("-", "/")
     resp = requests.get(
         url=URL.format(crawler_date), headers=HEADER
     )
@@ -43,7 +47,7 @@ def crawler(para:typing.Dict[str, str]):
 
 if __name__ == "__main__":
     para = {
-        "crawler_date": "111/01/26",
+        "crawler_date": "2022-01-26",
     }
     data = crawler(para)
     print(data)

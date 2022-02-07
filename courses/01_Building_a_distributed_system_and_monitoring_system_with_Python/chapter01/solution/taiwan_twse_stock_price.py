@@ -27,6 +27,7 @@ HEADER = {
 
 def crawler(para:typing.Dict[str, str]) -> pd.DataFrame:
     crawler_date = para.get("crawler_date", "")
+    crawler_date = crawler_date.replace("-", "")
     crawler_timestamp = int(datetime.datetime.now().timestamp())
 
     resp = requests.get(
@@ -42,7 +43,7 @@ def crawler(para:typing.Dict[str, str]) -> pd.DataFrame:
 
 if __name__ == "__main__":
     para = {
-        "crawler_date": "20220121",
+        "crawler_date": "2022-01-26",
     }
     data = crawler(para)
     print(data)
