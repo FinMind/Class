@@ -26,27 +26,47 @@ HEADER = {
 }
 
 
-def crawler(para:typing.Dict[str, str]) -> pd.DataFrame:
-    crawler_date = para.get("crawler_date", "")
+def crawler(parameters:typing.Dict[str, str]) -> pd.DataFrame:
+    crawler_date = parameters.get("crawler_date", "")
     crawler_date = crawler_date.replace("-", "")
     crawler_timestamp = int(datetime.datetime.now().timestamp())
 
     resp = requests.get(
         url=URL.format(crawler_date, crawler_timestamp), headers=HEADER
     )
+    columns = [
+        "stock_id",
+        "stock_name",
+        "Foreign_Investors_include_Mainland_Area_Buy",
+        "Foreign_Investors_include_Mainland_Area_Sell",
+        "Foreign_Investors_include_Mainland_Area_Net",
+        "Foreign_Dealer_Self_Buy",
+        "Foreign_Dealer_Self_Sell",
+        "Foreign_Dealer_Self_Net",
+        "Investment_Trust_Buy",
+        "Investment_Trust_Sell",
+        "Investment_Trust_Net",
+        "Dealer_Net",
+        "Dealer_self_Buy",
+        "Dealer_self_Sell",
+        "Dealer_self_Net",
+        "Dealer_Hedging_Buy",
+        "Dealer_Hedging_Sell",
+        "Dealer_Hedging_Net",
+        "Total_Net",
+    ]
     if resp.ok:
         resp_data = json.loads(resp.text)
-        columns = resp_data.get("fields", "")
         data = resp_data.get("data", "")
         data = pd.DataFrame(data, columns=columns)
     else:
-        data = pd.DataFrame()
+        data = pd.DataFrame(columns=columns)
     return data
 
 
 if __name__ == "__main__":
-    para = {
+    parameters = {
         "crawler_date": "2022-01-26",
     }
-    data = crawler(para)
+    data = crawler(parameters)
     print(data)

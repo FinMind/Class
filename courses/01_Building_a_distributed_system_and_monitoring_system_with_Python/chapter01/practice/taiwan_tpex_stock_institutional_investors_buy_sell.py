@@ -10,20 +10,21 @@ HEADER = {
 }
 
 #TODO: need to complete the crawler
-def crawler(para:typing.Dict[str, str]) -> pd.DataFrame:
+def crawler(parameters:typing.Dict[str, str]) -> pd.DataFrame:
     '''
     Steps:
     1) Get the parameters
     2) Change the crawler_date parameter format
     3) Send the request
-    4) Return dataframe data
+    4) Select the data you want and set up the column name
+    5) Return dataframe data
     '''
     return data
 
 
 if __name__ == "__main__":
-    para = {
+    parameters = {
         "crawler_date": "2022-01-26",
     }
-    data = crawler(para)
+    data = crawler(parameters)
     print(data)
