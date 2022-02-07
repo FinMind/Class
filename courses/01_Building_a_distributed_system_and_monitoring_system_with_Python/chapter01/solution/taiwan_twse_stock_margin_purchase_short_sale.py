@@ -26,27 +26,44 @@ HEADER = {
 }
 
 
-def crawler(para:typing.Dict[str, str]) -> pd.DataFrame:
-    crawler_date = para.get("crawler_date", "")
+def crawler(parameters:typing.Dict[str, str]) -> pd.DataFrame:
+    crawler_date = parameters.get("crawler_date", "")
     crawler_date = crawler_date.replace("-", "")
     crawler_timestamp = int(datetime.datetime.now().timestamp())
 
     resp = requests.get(
         url=URL.format(crawler_date, crawler_timestamp), headers=HEADER
     )
+    columns = [
+        "stock_id",
+        "stock_name",
+        "MarginPurchaseBuy",
+        "MarginPurchaseSell",
+        "MarginPurchaseCashRepayment",
+        "MarginPurchaseYesterdayBalance",
+        "MarginPurchaseTodayBalance",
+        "MarginPurchaseLimit",
+        "ShortSaleBuy",
+        "ShortSaleSell",
+        "ShortSaleCashRepayment",
+        "ShortSaleYesterdayBalance",
+        "ShortSaleTodayBalance",
+        "ShortSaleLimit",
+        "OffsetLoanAndShort",
+        "Note",
+    ]
     if resp.ok:
         resp_data = json.loads(resp.text)
-        columns = resp_data.get("fields", "")
         data = resp_data.get("data", "")
         data = pd.DataFrame(data, columns=columns)
     else:
-        data = pd.DataFrame()
+        data = pd.DataFrame(columns=columns)
     return data
 
 
 if __name__ == "__main__":
-    para = {
+    parameters = {
         "crawler_date": "2022-01-26",
     }
-    data = crawler(para)
+    data = crawler(parameters)
     print(data)
