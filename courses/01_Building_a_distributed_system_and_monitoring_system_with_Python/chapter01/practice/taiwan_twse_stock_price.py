@@ -10,7 +10,7 @@ HEADER = {
 }
 
 #TODO: need to complete the crawler
-def crawler(para:typing.Dict[str, str]) -> pd.DataFrame:
+def crawler(parameters:typing.Dict[str, str]) -> pd.DataFrame:
     '''
     Steps:
     1) Get the parameters
@@ -23,8 +23,8 @@ def crawler(para:typing.Dict[str, str]) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    para = {
+    parameters = {
         "crawler_date": "2022-01-26",
     }
-    data = crawler(para)
+    data = crawler(parameters)
     print(data)
