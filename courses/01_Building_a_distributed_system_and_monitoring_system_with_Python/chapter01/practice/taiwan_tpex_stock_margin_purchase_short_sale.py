@@ -23,7 +23,7 @@ def crawler(para:typing.Dict[str, str]) -> pd.DataFrame:
 
 if __name__ == "__main__":
     para = {
-        "crawler_date": "111/01/26",
+        "crawler_date": "2022-01-26",
     }
     data = crawler(para)
     print(data)
