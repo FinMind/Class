@@ -63,6 +63,7 @@ def crawler(parameters:typing.Dict[str, str]):
     else:
         data = pd.DataFrame()
     data.columns = colname
+    data["date"] = parameters.get("crawler_date", "")
     return data
 
 
