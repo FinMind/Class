@@ -29,7 +29,7 @@ HEADER = {
 def crawler(parameters:typing.Dict[str, str]):
     crawler_date = parameters.get("crawler_date", "")
     crawler_date = crawler_date.replace(
-    crawler_date.split("-")[0],
+        crawler_date.split("-")[0],
         str(int(crawler_date.split("-")[0]) - 1911)
     )
     crawler_date = crawler_date.replace("-", "/")
