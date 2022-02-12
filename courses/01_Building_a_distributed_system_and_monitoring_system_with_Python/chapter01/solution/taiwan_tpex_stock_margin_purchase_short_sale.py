@@ -33,8 +33,10 @@ def crawler(parameters:typing.Dict[str, str]):
         str(int(crawler_date.split("-")[0]) - 1911)
     )
     crawler_date = crawler_date.replace("-", "/")
+    crawler_timestamp = int(datetime.datetime.now().timestamp())
+
     resp = requests.get(
-        url=URL.format(crawler_date), headers=HEADER
+        url=URL.format(crawler_date, crawler_timestamp), headers=HEADER
     )
     colname = [
         "stock_id",
