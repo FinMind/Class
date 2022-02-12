@@ -60,10 +60,10 @@ def crawler(parameters:typing.Dict[str, str]):
         data = resp_data.get("aaData", "")
         data = pd.DataFrame(data)
         data = data.drop([7, 8, 15, 16], axis=1)
+        data.columns = colname
+        data["date"] = parameters.get("crawler_date", "")
     else:
         data = pd.DataFrame()
-    data.columns = colname
-    data["date"] = parameters.get("crawler_date", "")
     return data
 
 
