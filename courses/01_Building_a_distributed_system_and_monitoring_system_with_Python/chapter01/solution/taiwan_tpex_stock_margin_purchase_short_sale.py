@@ -5,7 +5,7 @@ import typing
 import pandas as pd
 import requests
 
-URL = "https://www.tpex.org.tw/web/stock/margin_trading/margin_balance/margin_bal_result.php?l=zh-tw&o=json&d={}&s=0,asc"
+URL = "https://www.tpex.org.tw/web/stock/margin_trading/margin_balance/margin_bal_result.php?l=zh-tw&o=json&d={}&_={}"
 
 # 網頁瀏覽時, 所帶的 request header 參數, 模仿瀏覽器發送 request
 HEADER = {
