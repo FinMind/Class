@@ -5,7 +5,7 @@ import typing
 import pandas as pd
 import requests
 
-URL = "https://www.tpex.org.tw/web/stock/margin_trading/margin_balance/margin_bal_result.php?l=zh-tw&o=json&d={}&s=0,asc"
+URL = "https://www.tpex.org.tw/web/stock/margin_trading/margin_balance/margin_bal_result.php?l=zh-tw&o=json&d={}&_={}"
 
 # 網頁瀏覽時, 所帶的 request header 參數, 模仿瀏覽器發送 request
 HEADER = {
@@ -33,8 +33,10 @@ def crawler(parameters:typing.Dict[str, str]):
         str(int(crawler_date.split("-")[0]) - 1911)
     )
     crawler_date = crawler_date.replace("-", "/")
+    crawler_timestamp = int(datetime.datetime.now().timestamp())
+
     resp = requests.get(
-        url=URL.format(crawler_date), headers=HEADER
+        url=URL.format(crawler_date, crawler_timestamp), headers=HEADER
     )
     colname = [
         "stock_id",
@@ -60,10 +62,10 @@ def crawler(parameters:typing.Dict[str, str]):
         data = resp_data.get("aaData", "")
         data = pd.DataFrame(data)
         data = data.drop([7, 8, 15, 16], axis=1)
+        data.columns = colname
+        data["date"] = parameters.get("crawler_date", "")
     else:
         data = pd.DataFrame()
-    data.columns = colname
-    data["date"] = parameters.get("crawler_date", "")
     return data
 
 

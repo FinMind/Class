@@ -29,7 +29,7 @@ HEADER = {
 def crawler(parameters:typing.Dict[str, str]):
     crawler_date = parameters.get("crawler_date", "")
     crawler_date = crawler_date.replace(
-    crawler_date.split("-")[0],
+        crawler_date.split("-")[0],
         str(int(crawler_date.split("-")[0]) - 1911)
     )
     crawler_date = crawler_date.replace("-", "/")
@@ -50,10 +50,10 @@ def crawler(parameters:typing.Dict[str, str]):
         resp_data = json.loads(resp.text)
         data = pd.DataFrame(resp_data["aaData"])
         data = data[[0, 1, 2, 4, 5, 6]]
+        data.columns = columns
+        data["date"] = parameters.get("crawler_date", "")
     else:
         data = pd.DataFrame()
-    data.columns = columns
-    data["date"] = parameters.get("crawler_date", "")
     return data
 
 

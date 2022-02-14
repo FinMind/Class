@@ -45,10 +45,10 @@ def crawler(parameters:typing.Dict[str, str]) -> pd.DataFrame:
         resp_data = json.loads(resp.text)
         data = pd.DataFrame(resp_data["data9"])
         data = data[[0, 1, 5, 6, 7, 8]]
+        data.columns = columns
+        data["date"] = parameters.get("crawler_date", "")
     else:
         data = pd.DataFrame()
-    data.columns = columns
-    data["date"] = parameters.get("crawler_date", "")
     return data
 
 
