@@ -24,7 +24,6 @@ def update(
 ):
     # 拿取每個爬蟲任務的參數列表，
     # 包含爬蟲資料的日期 date，例如 2021-04-10 的台股股價，
-    # 資料來源 data_source，例如 twse 證交所、tpex 櫃買中心
     parameter_list = gen_task_paramter_list(
         start_date=start_date,
         end_date=end_date,
@@ -33,7 +32,6 @@ def update(
     for parameters in parameter_list:
         print(f"{dataset}, {parameters}")
         task = crawler.s(dataset, parameters)
-        # queue 參數，可以指定要發送到特定 queue 列隊中
         task.apply_async()
 
 
