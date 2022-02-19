@@ -12,7 +12,7 @@
 #### 建立 mysql volume
     make create-mysql-volume
 
-#### 啟動 rabbitmq
+#### 啟動 mysql
     make deploy-mysql
 
 #### 啟動 celery - twse
