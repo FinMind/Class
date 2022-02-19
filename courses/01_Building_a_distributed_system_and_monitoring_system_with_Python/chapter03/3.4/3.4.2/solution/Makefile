@@ -30,9 +30,17 @@ run-worker-twse:
 run-worker-tpex:
 	pipenv run celery -A financialdata.worker worker --loglevel=info --concurrency=1  --hostname=%h.tpex -Q tpex
 
-# sent task
+# 啟動 celery - taifex
+run-worker-taifex:
+	pipenv run celery -A financialdata.worker worker --loglevel=info --concurrency=1  --hostname=%h.taifex -Q taifex
+
+# sent taiwan-stock-price task
 sent-taiwan-stock-price-task:
 	pipenv run python financialdata/producer.py taiwan_stock_price 2021-04-01 2021-04-12
+
+# sent taiwan-futures-daily task
+sent-taiwan-futures-daily-task:
+	pipenv run python financialdata/producer.py taiwan_futures_daily 2021-04-01 2021-04-12
 
 # 建立 dev 環境變數
 gen-dev-env-variable:
