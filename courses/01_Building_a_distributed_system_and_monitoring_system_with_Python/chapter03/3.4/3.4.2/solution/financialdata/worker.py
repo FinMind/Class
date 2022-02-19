@@ -1,10 +1,47 @@
-from celery import Celery
+import importlib
+import typing
+import time
+
+from loguru import logger
+
+from celery import Celery, Task
 from financialdata.config import (
-    WORKER_ACCOUNT,
-    WORKER_PASSWORD,
     MESSAGE_QUEUE_HOST,
     MESSAGE_QUEUE_PORT,
+    WORKER_ACCOUNT,
+    WORKER_PASSWORD,
 )
+
+
+class CallbackTask(Task):
+    def retry(
+        self, kwargs: typing.List[typing.Union[str, typing.Dict[str, str]]]
+    ):
+        """如果任務失敗，重新發送"""
+        logger.info(f"retry: {kwargs}")
+        crawler = getattr(
+            importlib.import_module("financialdata.tasks"), "crawler"
+        )
+        dataset = kwargs.get('dataset')
+        parameters = kwargs.get('parameters')
+        task = crawler.s(dataset=dataset, parameters=parameters)
+        task.apply_async(queue=parameters.get("data_source", ""))
+
+    def on_success(self, retval, task_id, args, kwargs):
+        return super(CallbackTask, self).on_success(
+            retval, task_id, args, kwargs
+        )
+
+    def on_failure(self, exc, task_id, args, kwargs, info):
+        """如果任務失敗，重新發送"""
+        logger.info(f"args: {args}")
+        logger.info(f"kwargs: {kwargs}")
+        self.retry(kwargs)
+        time.sleep(3)
+        return super(CallbackTask, self).on_failure(
+            exc, task_id, args, kwargs, info
+        )
+
 
 broker = (
     f"pyamqp://{WORKER_ACCOUNT}:{WORKER_PASSWORD}@"

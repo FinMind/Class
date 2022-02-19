@@ -147,7 +147,10 @@ def crawler_tpex(
     """
     logger.info("crawler_tpex")
     # headers 中的 Request url
-    url = "https://www.tpex.org.tw/web/stock/aftertrading/otc_quotes_no1430/stk_wn1430_result.php?l=zh-tw&d={date}&se=AL"
+    url = (
+        "https://www.tpex.org.tw/web/stock/aftertrading/otc_quotes_no1430/"
+        "stk_wn1430_result.php?l=zh-tw&d={date}&se=AL"
+    )
     url = url.format(date=convert_date(date))
     # 避免被櫃買中心 ban ip, 在每次爬蟲時, 先 sleep 5 秒
     time.sleep(5)
@@ -166,6 +169,32 @@ def crawler_tpex(
     return df
 
 
+def convert_twse_resp2dataframe(response):
+    # 2009 年以後的資料, 股價在 response 中的 data9,
+    # 2009 年以後的資料, 股價在 response 中的 data8
+    # 不同格式, 在證交所的資料中, 是很常見的,
+    # 沒資料的情境也要考慮進去，例如現在週六沒有交易，
+    # 但在 2007 年週六是有交易的
+    df = pd.DataFrame()
+    colname = []
+    try:
+        if "data9" in response.json():
+            df = pd.DataFrame(response.json()["data9"])
+            colname = response.json()["fields9"]
+        elif "data8" in response.json():
+            df = pd.DataFrame(response.json()["data8"])
+            colname = response.json()["fields8"]
+        elif response.json()["stat"] in [
+            "查詢日期小於93年2月11日，請重新查詢!",
+            "很抱歉，沒有符合條件的資料!",
+        ]:
+            pass
+    except Exception as e:
+        logger.error(e)
+        return pd.DataFrame()
+    return df, colname
+
+
 def crawler_twse(
     date: str,
 ) -> pd.DataFrame:
@@ -175,33 +204,16 @@ def crawler_twse(
     """
     logger.info("crawler_twse")
     # headers 中的 Request url
-    url = "https://www.twse.com.tw/exchangeReport/MI_INDEX?response=json&date={date}&type=ALL"
+    url = (
+        "https://www.twse.com.tw/exchangeReport/MI_INDEX?"
+        "response=json&date={date}&type=ALL"
+    )
     url = url.format(date=date.replace("-", ""))
     # 避免被證交所 ban ip, 在每次爬蟲時, 先 sleep 5 秒
     time.sleep(5)
     # request method
-    res = requests.get(url, headers=twse_header())
-    # 2009 年以後的資料, 股價在 response 中的 data9
-    # 2009 年以後的資料, 股價在 response 中的 data8
-    # 不同格式, 在證交所的資料中, 是很常見的,
-    # 沒資料的情境也要考慮進去，例如現在週六沒有交易，但在 2007 年週六是有交易的
-    df = pd.DataFrame()
-    try:
-        if "data9" in res.json():
-            df = pd.DataFrame(res.json()["data9"])
-            colname = res.json()["fields9"]
-        elif "data8" in res.json():
-            df = pd.DataFrame(res.json()["data8"])
-            colname = res.json()["fields8"]
-        elif res.json()["stat"] in [
-            "查詢日期小於93年2月11日，請重新查詢!",
-            "很抱歉，沒有符合條件的資料!",
-        ]:
-            pass
-    except Exception as e:
-        logger.error(e)
-        return pd.DataFrame()
-
+    response = requests.get(url, headers=twse_header())
+    df, colname = convert_twse_resp2dataframe(response=response)
     if len(df) == 0:
         return pd.DataFrame()
     # 欄位中英轉換
