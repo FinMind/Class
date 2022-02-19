@@ -14,9 +14,7 @@ def update(
     # 包含爬蟲資料的日期 date，例如 2021-04-10 的台股股價，
     # 資料來源 data_source，例如 twse 證交所、tpex 櫃買中心
     parameter_list = getattr(
-        importlib.import_module(
-            f"financialdata.crawler.{dataset}"
-        ),
+        importlib.import_module(f"financialdata.crawler.{dataset}"),
         "gen_task_paramter_list",
     )(
         start_date=start_date,

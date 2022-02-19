@@ -11,7 +11,7 @@ def update2mysql_by_pandas(
     table: str,
     mysql_conn: engine.base.Connection,
 ):
-    ''' 使用 pandas 內建函數上傳資料到 MySQL '''
+    """使用 pandas 內建函數上傳資料到 MySQL"""
     if len(df) > 0:
         try:
             df.to_sql(
@@ -22,7 +22,6 @@ def update2mysql_by_pandas(
                 chunksize=1000,
             )
         except Exception as e:
-            logger.info(e)
             return False
     return True
 
@@ -32,11 +31,9 @@ def update2mysql_by_sql(
     table: str,
     mysql_conn: engine.base.Connection,
 ):
-    ''' 使用 raw SQL 上傳資料到 MySQL '''
+    """使用 raw SQL 上傳資料到 MySQL"""
     sql = build_df_update_sql(table, df)
-    commit(
-        sql=sql, mysql_conn=mysql_conn
-    )
+    commit(sql=sql, mysql_conn=mysql_conn)
 
 
 def build_update_sql(
@@ -56,28 +53,16 @@ def build_update_sql(
     return update_sql
 
 
-def build_df_update_sql(
-    table: str, df: pd.DataFrame
-) -> typing.List[str]:
-    ''' 建立上傳 data 到 MySQL 的 SQL '''
+def build_df_update_sql(table: str, df: pd.DataFrame) -> typing.List[str]:
+    """建立上傳 data 到 MySQL 的 SQL"""
     logger.info("build_df_update_sql")
     df_columns = list(df.columns)
     sql_list = []
     for i in range(len(df)):
         temp = list(df.iloc[i])
-        value = [
-            pymysql.converters.escape_string(
-                str(v)
-            )
-            for v in temp
-        ]
-        sub_df_columns = [
-            df_columns[j]
-            for j in range(len(temp))
-        ]
-        update_sql = build_update_sql(
-            sub_df_columns, value
-        )
+        value = [pymysql.converters.escape_string(str(v)) for v in temp]
+        sub_df_columns = [df_columns[j] for j in range(len(temp))]
+        update_sql = build_update_sql(sub_df_columns, value)
         # SQL 上傳資料方式
         # DUPLICATE KEY UPDATE 意思是
         # 如果有重複，就改用 update 的方式
@@ -85,14 +70,8 @@ def build_df_update_sql(
         sql = """INSERT INTO `{}`({})VALUES ({}) ON DUPLICATE KEY UPDATE {}
             """.format(
             table,
-            "`{}`".format(
-                "`,`".join(
-                    sub_df_columns
-                )
-            ),
-            '"{}"'.format(
-                '","'.join(value)
-            ),
+            "`{}`".format("`,`".join(sub_df_columns)),
+            '"{}"'.format('","'.join(value)),
             update_sql,
         )
         sql_list.append(sql)
@@ -100,9 +79,7 @@ def build_df_update_sql(
 
 
 def commit(
-    sql: typing.Union[
-        str, typing.List[str]
-    ],
+    sql: typing.Union[str, typing.List[str]],
     mysql_conn: engine.base.Connection = None,
 ):
     logger.info("commit")
@@ -111,22 +88,14 @@ def commit(
         if isinstance(sql, list):
             for s in sql:
                 try:
-                    mysql_conn.execution_options(
-                        autocommit=False
-                    ).execute(
-                        s
-                    )
+                    mysql_conn.execution_options(autocommit=False).execute(s)
                 except Exception as e:
                     logger.info(e)
                     logger.info(s)
                     break
 
         elif isinstance(sql, str):
-            mysql_conn.execution_options(
-                autocommit=False
-            ).execute(
-                sql
-            )
+            mysql_conn.execution_options(autocommit=False).execute(sql)
         trans.commit()
     except Exception as e:
         trans.rollback()
