@@ -2,11 +2,11 @@ import importlib
 import typing
 
 from financialdata import db
-from financialdata.worker import app
+from financialdata.worker import app, CallbackTask
 
 
 # 註冊 task, 有註冊的 task 才可以變成任務發送給 rabbitmq
-@app.task()
+@app.task(base=CallbackTask)
 def crawler(
     dataset: str,
     parameters: typing.Dict[str, str],
