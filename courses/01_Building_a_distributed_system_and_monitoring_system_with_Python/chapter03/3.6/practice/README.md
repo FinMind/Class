@@ -8,8 +8,8 @@
 
 合併成 `taiwan_stock_institutional_investors_buy_sell`
 
-taiwan_tpex_stock_margin_purchase_short_sale.py
-taiwan_twse_stock_margin_purchase_short_sale.py
+    taiwan_tpex_stock_margin_purchase_short_sale.py
+    taiwan_twse_stock_margin_purchase_short_sale.py
 
 合併成 `taiwan_stock_margin_purchase_short_sale`
 
