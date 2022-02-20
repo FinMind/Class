@@ -7,8 +7,8 @@ import requests
 from loguru import logger
 
 
-def is_weekend(day: int) -> bool:
-    return day in [0]
+def is_weekend(date: datetime.date) -> bool:
+    return date.weekday() in [6]
 
 
 def gen_task_paramter_list(start_date: str, end_date: str) -> typing.List[str]:
@@ -29,6 +29,7 @@ def gen_task_paramter_list(start_date: str, end_date: str) -> typing.List[str]:
             "twse",
             "tpex",
         ]
+        if not is_weekend(d)
     ]
     return date_list
 

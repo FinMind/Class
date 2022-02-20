@@ -107,11 +107,7 @@ def crawler_futures(date: str) -> pd.DataFrame:
 def gen_task_paramter_list(
     start_date: str, end_date: str
 ) -> typing.Dict[str, typing.List[str]]:
-    """建立時間列表, 用於爬取所有資料, 這時有兩種狀況
-    1. 抓取歷史資料
-    2. 每日更新
-    因此, 爬蟲日期列表, 根據 history 參數進行判斷
-    """
+    """建立時間列表"""
     start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
     end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d").date()
     days = (end_date - start_date).days + 1
