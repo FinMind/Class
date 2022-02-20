@@ -1,10 +1,13 @@
 import importlib
-import typing
+import socket
 import time
+import typing
 
+import pymysql
 from loguru import logger
 
 from celery import Celery, Task
+from financialdata import db
 from financialdata.config import (
     MESSAGE_QUEUE_HOST,
     MESSAGE_QUEUE_PORT,
@@ -34,6 +37,18 @@ class CallbackTask(Task):
 
     def on_failure(self, exc, task_id, args, kwargs, info):
         """如果任務失敗，重新發送"""
+        sql = """INSERT INTO `celery_log`(
+                `retry`,`status`,`worker`, `task_id`, `msg`, `info`, `args`, `kwargs`)
+                 VALUES ('0','-1', '{}', '{}', '{}', '{}', '{}', '{}')
+        """.format(
+            socket.gethostname(),
+            task_id,
+            pymysql.converters.escape_string(str(exc)),
+            pymysql.converters.escape_string(str(info)),
+            pymysql.converters.escape_string(str(args)),
+            pymysql.converters.escape_string(str(kwargs)),
+        )
+        db.commit(sql=sql, mysql_conn=db.router.mysql_financialdata_conn)
         logger.info(f"args: {args}")
         logger.info(f"kwargs: {kwargs}")
         self.retry(kwargs)
