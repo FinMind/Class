@@ -22,8 +22,8 @@ class CallbackTask(Task):
         crawler = getattr(
             importlib.import_module("financialdata.tasks"), "crawler"
         )
-        dataset = kwargs.get('dataset')
-        parameters = kwargs.get('parameters')
+        dataset = kwargs.get("dataset")
+        parameters = kwargs.get("parameters")
         task = crawler.s(dataset=dataset, parameters=parameters)
         task.apply_async(queue=parameters.get("data_source", ""))
 
