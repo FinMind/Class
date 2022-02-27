@@ -19,8 +19,12 @@ services:
     image: portainer/portainer:1.24.2
     command: -H tcp://tasks.agent:9001 --tlsskipverify
     ports:
-      - "9000:9000"
-      - "8000:8000"
+      - target: 9000
+        published: 9000
+        mode: host
+      - target: 8000
+        published: 8000
+        mode: host
     volumes:
       - portainer_data:/data
     networks:
