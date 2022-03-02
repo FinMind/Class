@@ -1,4 +1,4 @@
-version: '3'
+version: '3.3'
 services:
 
   mysql:
@@ -6,8 +6,8 @@ services:
       command: mysqld --default-authentication-plugin=mysql_native_password      
       ports:
         - target: 3306
-            published: 3306
-            mode: host
+          published: 3306
+          mode: host
       environment:
           MYSQL_DATABASE: mydb
           MYSQL_USER: user
@@ -25,8 +25,8 @@ services:
           - mysql:db
       ports:
         - target: 8080
-            published: 80
-            mode: host
+          published: 80
+          mode: host
       environment:
           MYSQL_USER: user
           MYSQL_PASSWORD: test
