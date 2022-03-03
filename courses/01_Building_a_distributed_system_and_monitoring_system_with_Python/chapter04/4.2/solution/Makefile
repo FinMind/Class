@@ -6,6 +6,9 @@ init-swarm:
 deploy-rabbitmq:
 	docker stack deploy -c rabbitmq.yml rabbitmq
 
+deploy-portainer:
+	docker stack deploy -c portainer.yml por
+
 # 建立 network
 create-network:
 	docker network create --driver=overlay my_network
