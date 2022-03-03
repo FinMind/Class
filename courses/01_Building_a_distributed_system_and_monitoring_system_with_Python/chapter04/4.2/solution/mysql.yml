@@ -25,8 +25,8 @@ services:
           - mysql:db
       ports:
         - target: 8080
-            published: 80
-            mode: host
+          published: 80
+          mode: host
       environment:
           MYSQL_USER: user
           MYSQL_PASSWORD: test
