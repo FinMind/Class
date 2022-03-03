@@ -59,3 +59,6 @@ gen-release-env-variable:
 
 build-image:
 	docker build -f Dockerfile -t crawler:dev .
+
+deploy-crawler-worker:
+	docker stack deploy -c crawler_worker.yml crawler_worker
