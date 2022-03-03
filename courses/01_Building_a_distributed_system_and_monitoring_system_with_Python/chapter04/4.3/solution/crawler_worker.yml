@@ -2,7 +2,7 @@ version: '3.8'
 services:
   crawler_twse:
     # 設定 image
-    image: crawler:dev
+    image: linsamtw/class01_crawler:dev
     # 設定 hostname, 用於 flower 上顯示
     hostname: "{{.Node.Hostname}}-{{.Service.Name}}"
     # 啟動 worker 指令
@@ -30,7 +30,7 @@ services:
 
   crawler_tpex:
     # 設定 image
-    image: crawler:dev
+    image: linsamtw/class01_crawler:dev
     # 設定 hostname, 用於 flower 上顯示
     hostname: "{{.Node.Hostname}}-{{.Service.Name}}"
     # 啟動 worker 指令
@@ -58,7 +58,7 @@ services:
 
   crawler_taifex:
     # 設定 image
-    image: crawler:dev
+    image: linsamtw/class01_crawler:dev
     # 設定 hostname, 用於 flower 上顯示
     hostname: "{{.Node.Hostname}}-{{.Service.Name}}"
     # 啟動 worker 指令
