@@ -102,6 +102,14 @@ def commit(
         logger.info(e)
 
 
+def query(
+    sql: str,
+    mysql_conn: engine.base.Connection = None,
+):
+    data = mysql_conn.execute(sql)
+    return data.fetchall()
+
+
 def upload_data(
     df: pd.DataFrame,
     table: str,

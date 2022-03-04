@@ -1,3 +1,5 @@
+CI_COMMIT_SHORT_SHA := $(shell git rev-parse --short=8 HEAD)
+
 # 初始化 docker swarm
 init-swarm:
 	docker swarm init
@@ -57,3 +59,10 @@ gen-staging-env-variable:
 # 建立 release 環境變數
 gen-release-env-variable:
 	VERSION=RELEASE python genenv.py
+
+build-grafana-image:
+	SHA=${CI_COMMIT_SHORT_SHA} docker-compose -f grafana.yml build --no-cache
+
+# 啟動 grafana
+deploy-grafana: build-grafana-image
+	SHA=${CI_COMMIT_SHORT_SHA} docker stack deploy -c grafana.yml grafana

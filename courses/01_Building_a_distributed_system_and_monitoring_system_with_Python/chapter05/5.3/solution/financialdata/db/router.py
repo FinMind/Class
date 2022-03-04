@@ -43,6 +43,7 @@ def check_connect_alive(
 class Router:
     def __init__(self):
         self._mysql_financialdata_conn = clients.get_mysql_financialdata_conn()
+        self._mysql_monitor_conn = clients.get_mysql_monitor_conn()
 
     def check_mysql_financialdata_conn_alive(
         self,
@@ -53,9 +54,22 @@ class Router:
         )
         return self._mysql_financialdata_conn
 
+    def check_mysql_monitor_conn_alive(
+        self,
+    ):
+        self._mysql_monitor_conn = check_connect_alive(
+            self._mysql_monitor_conn,
+            clients.get_mysql_monitor_conn,
+        )
+        return self._mysql_monitor_conn
+
     @property
     def mysql_financialdata_conn(self):
         return self.check_mysql_financialdata_conn_alive()
+
+    @property
+    def mysql_monitor_conn(self):
+        return self.check_mysql_monitor_conn_alive()
 
     def close_connection(self):
         self._mysql_financialdata_conn.close()

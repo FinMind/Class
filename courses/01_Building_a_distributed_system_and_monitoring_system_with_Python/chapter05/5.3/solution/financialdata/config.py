@@ -9,6 +9,15 @@ MYSQL_DATA_DATABASE = os.environ.get(
     "FinancialData",
 )
 
+MYSQL_MONITOR_HOST = os.environ.get("MYSQL_MONITOR_HOST", "127.0.0.1")
+MYSQL_MONITOR_USER = os.environ.get("MYSQL_MONITOR_USER", "root")
+MYSQL_MONITOR_PASSWORD = os.environ.get("MYSQL_MONITOR_PASSWORD", "test")
+MYSQL_MONITOR_PORT = int(os.environ.get("MYSQL_MONITOR_PORT", "3306"))
+MYSQL_MONITOR_DATABASE = os.environ.get(
+    "MYSQL_MONITOR_DATABASE",
+    "Monitor",
+)
+
 WORKER_ACCOUNT = os.environ.get("WORKER_ACCOUNT", "worker")
 WORKER_PASSWORD = os.environ.get("WORKER_PASSWORD", "worker")
 
