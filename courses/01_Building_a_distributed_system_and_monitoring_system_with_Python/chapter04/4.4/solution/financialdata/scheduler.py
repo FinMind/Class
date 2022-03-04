@@ -8,9 +8,10 @@ from loguru import logger
 
 
 def main():
-    today = (datetime.datetime.utcnow() + datetime.timedelta(hours=8)).strftime(
-        "%Y-%m-%d"
-    )
+    today = (
+        datetime.datetime.utcnow() +
+        datetime.timedelta(hours=8)
+        ).strftime("%Y-%m-%d")
     scheduler = BackgroundScheduler(timezone="Asia/Taipei")
     scheduler.add_job(
         id="taiwan_stock_price",
