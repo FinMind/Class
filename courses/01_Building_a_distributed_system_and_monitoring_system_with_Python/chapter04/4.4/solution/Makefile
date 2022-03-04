@@ -70,5 +70,5 @@ deploy-crawler-worker:
 	docker stack deploy -c crawler_worker.yml crawler_worker
 
 # 部屬 scheduler
-deploy-crawler_scheduler:
+deploy-crawler-scheduler:
 	docker stack deploy -c crawler_scheduler.yml crawler_scheduler
