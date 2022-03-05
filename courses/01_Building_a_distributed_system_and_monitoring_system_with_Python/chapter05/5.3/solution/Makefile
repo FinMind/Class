@@ -60,6 +60,22 @@ gen-staging-env-variable:
 gen-release-env-variable:
 	VERSION=RELEASE python genenv.py
 
+# 建立 image
+build-image:
+	docker build -f Dockerfile -t linsamtw/class01_crawler:dev .
+
+# 上傳 image 到 docker hub
+push-image:
+	docker push linsamtw/class01_crawler:dev
+
+# 部屬爬蟲工人
+deploy-crawler-worker:
+	docker stack deploy -c crawler_worker.yml crawler_worker
+
+# 部屬 scheduler
+deploy-crawler-scheduler:
+	docker stack deploy -c crawler_scheduler.yml crawler_scheduler
+
 build-grafana-image:
 	SHA=${CI_COMMIT_SHORT_SHA} docker-compose -f grafana.yml build --no-cache
 
