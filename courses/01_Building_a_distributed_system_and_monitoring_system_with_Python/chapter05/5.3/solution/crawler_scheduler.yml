@@ -6,7 +6,7 @@ services:
     # 設定 hostname, 用於 flower 上顯示
     hostname: "{{.Node.Hostname}}-{{.Service.Name}}"
     # 啟動 worker 指令
-    command: pipenv run python financialdata/scheduler.py
+    command: pipenv run python financialdata/scheduler
     deploy:
       replicas: 1
       update_config:
