@@ -58,7 +58,6 @@ def save_dataset_count_daily(
         logger.info(f"{dataset} use mysql {monitor_date}:count {count}")
 
         monitor_query_time = get_now()
-        monitor_query_time = "2022-03-01 15:10:00"
         ret.append([dataset, monitor_date, count, monitor_query_time])
     df = pd.DataFrame(ret, columns=["dataset_name", "date", "count", "monitor_query_time"])
 
