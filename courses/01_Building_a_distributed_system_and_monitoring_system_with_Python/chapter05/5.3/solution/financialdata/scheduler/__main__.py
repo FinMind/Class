@@ -31,7 +31,7 @@ def main():
     scheduler.add_job(
         save_dataset_count_daily,
         "cron",
-        day_of_week="mon-sat",
+        day_of_week="mon-sun",
         hour="*",
         minute="*/1",
     )
