@@ -1,0 +1,24 @@
+version: '3.2'
+
+
+services:
+  grafana:
+    build:
+      context: .
+      dockerfile: grafana/Dockerfile
+    image: courses01_grafana:${SHA}
+    ports:
+      - target: 3000
+        published: 3000
+        mode: host
+    user: root
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=pass
+    restart: always
+    networks:
+        - my_network
+
+networks:
+  my_network:
+    # 加入已經存在的網路
+    external: true
