@@ -1,6 +1,8 @@
 # Class
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/20013414/158010082-197d4d9c-2a8f-4bbb-8201-075c536de1f5.png" width="760" height="420">
+</p>
 
-![image](https://user-images.githubusercontent.com/20013414/158010082-197d4d9c-2a8f-4bbb-8201-075c536de1f5.png)
 
 課程連結
 https://mastertalks.tw/products/python-dfa?ref=sam
@@ -20,3 +22,7 @@ sam200
 * Grafana 監控系統
 * Google reCAPTCHA 與驗證碼破解
 * 公開分享 20~30 隻台股金融資料爬蟲
+
+------------------
+討論區
+https://www.facebook.com/groups/401634838071226
