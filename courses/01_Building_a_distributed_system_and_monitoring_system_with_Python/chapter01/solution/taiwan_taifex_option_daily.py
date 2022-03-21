@@ -65,7 +65,8 @@ def crawler(parameters:typing.Dict[str, str]) -> pd.DataFrame:
         "歷史最低價": "",
         "是否因訊息面暫停交易": "",
         "交易時段": "",
-
+        "漲跌價":"",
+        "漲跌%":"",
     }
 
     if resp.ok:
