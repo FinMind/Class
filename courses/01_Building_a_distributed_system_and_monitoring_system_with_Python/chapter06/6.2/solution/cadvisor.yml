@@ -1,0 +1,22 @@
+version: '3.7'
+    
+services:
+  cadvisor:
+    image: google/cadvisor:v0.33.0
+    hostname: "{{.Node.Hostname}}"
+    command: -logtostderr -docker_only
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /:/rootfs:ro
+      - /var/run:/var/run
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    external: true
+  # net:
+  #   driver: overlay
+  #   attachable: true
