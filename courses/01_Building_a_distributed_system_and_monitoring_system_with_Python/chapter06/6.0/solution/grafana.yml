@@ -3,10 +3,7 @@ version: '3.2'
 
 services:
   grafana:
-    build:
-      context: .
-      dockerfile: grafana/Dockerfile
-    image: courses01_grafana:${SHA}
+    image: linsamtw/class06_grafana:6.0
     ports:
       - target: 3000
         published: 3000
@@ -14,6 +11,14 @@ services:
     user: root
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=pass
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      placement:
+        max_replicas_per_node: 1
+        constraints: [node.labels.grafana == true]
     restart: always
     networks:
         - my_network
