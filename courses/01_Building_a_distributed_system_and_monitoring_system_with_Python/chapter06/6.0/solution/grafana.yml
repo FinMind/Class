@@ -1,5 +1,4 @@
-version: '3.2'
-
+version: '3.8'
 
 services:
   grafana:
@@ -17,7 +16,6 @@ services:
         parallelism: 1
         delay: 10s
       placement:
-        max_replicas_per_node: 1
         constraints: [node.labels.grafana == true]
     restart: always
     networks:
