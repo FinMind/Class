@@ -18,4 +18,8 @@ push-prometheus-image:
 
 # 啟動 grafana
 deploy-grafana: build-grafana-image push-grafana-image
-	SHA=${CI_COMMIT_SHORT_SHA} docker stack deploy -c grafana.yml grafana
+	docker stack deploy -c grafana.yml grafana
+
+# 啟動 prometheus
+deploy-prometheus: build-prometheus-image push-prometheus-image
+	docker stack deploy -c prometheus.yml prometheus
