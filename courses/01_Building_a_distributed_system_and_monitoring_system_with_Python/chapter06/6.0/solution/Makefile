@@ -70,7 +70,7 @@ push-image:
 
 # 建立 image
 build-grafana-image:
-	docker build -f Dockerfile -t linsamtw/class06_grafana:6.0 .
+	docker build -f grafana/Dockerfile -t linsamtw/class06_grafana:6.0 .
 
 # 上傳 image 到 docker hub
 push-grafana-image:
