@@ -1,0 +1,69 @@
+version: '3.7'
+
+x-netdata-service: &netdata-service
+    restart: always
+    hostname: "{{.Node.Hostname}}-{{.Service.Name}}"
+    image: finminddocker/netdata:${SHA}
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - my_network
+
+services:
+  netdata-rabbitmq:
+    <<: *netdata-service
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 64M
+      placement:
+        constraints:
+          - node.hostname == rabbitmq
+
+  netdata-worker1:
+    <<: *netdata-service
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 64M
+      placement:
+        constraints:
+          - node.hostname == worker1
+
+  netdata-worker2:
+    <<: *netdata-service
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 64M
+      placement:
+        constraints:
+          - node.hostname == worker2
+
+  netdata-monitor-system:
+    <<: *netdata-service
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 64M
+      placement:
+        constraints:
+          - node.hostname == monitor-system
+
+networks:
+  my_network:
+    external: true

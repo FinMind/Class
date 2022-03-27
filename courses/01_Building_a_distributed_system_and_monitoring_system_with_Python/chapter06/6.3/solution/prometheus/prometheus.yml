@@ -1,0 +1,63 @@
+global:
+  scrape_interval: 1s
+  scrape_timeout: 1s
+  evaluation_interval: 1s
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets: []
+    scheme: http
+    timeout: 5s
+scrape_configs:
+
+- job_name: prometheus
+  scrape_interval: 5s
+  scrape_timeout: 3s
+  metrics_path: /metrics
+  scheme: http
+  static_configs:
+  - targets:
+    - localhost:9090
+
+- job_name: 'cadvisor'
+  dns_sd_configs:
+  - names:
+    - 'tasks.cadvisor'
+    type: 'A'
+    port: 8080
+
+- job_name: 'netdata-rabbitmq'
+  scrape_interval: 60s
+  scrape_timeout: 5s
+  metrics_path: /api/v1/allmetrics
+  params:
+    format: [ prometheus ]
+  static_configs:
+    - targets: ['netdata-rabbitmq:19999']
+
+- job_name: 'netdata-worker1'
+  scrape_interval: 60s
+  scrape_timeout: 5s
+  metrics_path: /api/v1/allmetrics
+  params:
+    format: [ prometheus ]
+  static_configs:
+    - targets: ['netdata-worker1:19999']
+
+- job_name: 'netdata-worker2'
+  scrape_interval: 60s
+  scrape_timeout: 5s
+  metrics_path: /api/v1/allmetrics
+  params:
+    format: [ prometheus ]
+  static_configs:
+    - targets: ['netdata-worker2:19999']
+
+- job_name: 'netdata-monitor-system'
+  scrape_interval: 60s
+  scrape_timeout: 5s
+  metrics_path: /api/v1/allmetrics
+  params:
+    format: [ prometheus ]
+  static_configs:
+    - targets: ['netdata-monitor-system:19999']
