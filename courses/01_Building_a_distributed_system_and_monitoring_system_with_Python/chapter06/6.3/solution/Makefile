@@ -27,3 +27,7 @@ deploy-prometheus: build-prometheus-image push-prometheus-image
 # 啟動 cadvisor
 deploy-cadvisor:
 	docker stack deploy -c cadvisor.yml cadvisor
+
+# 啟動 netdata
+deploy-netdata:
+	docker stack deploy -c netdata.yml netdata
