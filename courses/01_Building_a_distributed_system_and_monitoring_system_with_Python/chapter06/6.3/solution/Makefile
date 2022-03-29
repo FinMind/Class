@@ -10,11 +10,11 @@ push-grafana-image:
 
 # 建立 image
 build-prometheus-image:
-	docker build -f prometheus/Dockerfile -t linsamtw/class06_prometheus:6.2 .
+	docker build -f prometheus/Dockerfile -t linsamtw/class06_prometheus:6.3 .
 
 # 上傳 image 到 docker hub
 push-prometheus-image:
-	docker push linsamtw/class06_prometheus:6.2
+	docker push linsamtw/class06_prometheus:6.3
 
 # 啟動 grafana
 deploy-grafana: build-grafana-image push-grafana-image
