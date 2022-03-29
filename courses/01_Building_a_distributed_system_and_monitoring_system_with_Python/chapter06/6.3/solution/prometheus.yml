@@ -1,0 +1,36 @@
+version: '3.7'
+
+volumes:
+    prometheus_data: {}
+    
+services:
+  prometheus:
+    image: linsamtw/class06_prometheus:6.3
+    volumes:
+      - prometheus_data:/prometheus
+    ports:
+      - target: 9090
+        published: 9090
+        mode: host
+    user: root
+    deploy:
+      resources: 
+        limits:
+          memory: 1024M
+        reservations:
+          memory: 512M
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 5s
+        order: stop-first
+        failure_action: rollback
+      placement:
+        constraints: [node.labels.grafana == true]
+    restart: always
+    networks:
+        - my_network
+
+networks:
+  my_network:
+    external: true

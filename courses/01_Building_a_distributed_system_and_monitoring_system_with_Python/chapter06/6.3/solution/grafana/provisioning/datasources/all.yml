@@ -1,0 +1,20 @@
+datasources:
+- name: 'prom1'
+  type: 'prometheus'
+  access: 'proxy'
+  org_id: 1
+  url: 'http://prometheus:9090'
+  is_default: true
+  version: 1
+  editable: true
+
+- name: MySQL
+  type: mysql
+  url: mysql:3306
+  database: Monitor
+  user: root
+  password: test
+  jsonData:
+    maxOpenConns: 0 # Grafana v5.4+
+    maxIdleConns: 2 # Grafana v5.4+
+    connMaxLifetime: 14400 # Grafana v5.4+
