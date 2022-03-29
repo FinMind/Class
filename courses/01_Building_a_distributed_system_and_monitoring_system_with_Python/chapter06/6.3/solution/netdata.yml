@@ -1,5 +1,8 @@
 version: '3.7'
 
+# 建立模板
+# 由於不同機器，設定都一樣，
+# 因此使用模板
 x-netdata-service: &netdata-service
     restart: always
     hostname: "{{.Node.Hostname}}-{{.Service.Name}}"
@@ -17,6 +20,7 @@ x-netdata-service: &netdata-service
 
 services:
   netdata-rabbitmq:
+    # 引用模板
     <<: *netdata-service
     deploy:
       resources:
@@ -26,9 +30,11 @@ services:
           memory: 64M
       placement:
         constraints:
+          # 設定，部屬在 hostname = rabbitmq
           - node.hostname == rabbitmq
 
   netdata-worker1:
+    # 引用模板
     <<: *netdata-service
     deploy:
       resources:
@@ -38,9 +44,11 @@ services:
           memory: 64M
       placement:
         constraints:
+          # 設定，部屬在 hostname = worker1
           - node.hostname == worker1
 
   netdata-worker2:
+    # 引用模板
     <<: *netdata-service
     deploy:
       resources:
@@ -50,9 +58,11 @@ services:
           memory: 64M
       placement:
         constraints:
+          # 設定，部屬在 hostname = worker2
           - node.hostname == worker2
 
   netdata-monitor-system:
+    # 引用模板
     <<: *netdata-service
     deploy:
       resources:
@@ -62,6 +72,7 @@ services:
           memory: 64M
       placement:
         constraints:
+          # 設定，部屬在 hostname = monitor-system
           - node.hostname == monitor-system
 
 networks:
