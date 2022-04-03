@@ -1,7 +1,7 @@
 import datetime
 import json
 import typing
-
+import time
 import pandas as pd
 import requests
 
@@ -29,7 +29,7 @@ def crawler(parameters: typing.Dict[str, str]) -> pd.DataFrame:
     crawler_date = parameters.get("crawler_date", "")
     crawler_date = crawler_date.replace("-", "")
     crawler_timestamp = int(datetime.datetime.now().timestamp())
-
+    time.sleep(5)
     resp = requests.get(
         url=URL.format(crawler_date, crawler_timestamp), headers=HEADER
     )

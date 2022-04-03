@@ -5,7 +5,7 @@ import time
 import pandas as pd
 import requests
 
-URL = "https://www.tpex.org.tw/web/stock/aftertrading/otc_quotes_no1430/stk_wn1430_result.php?l=zh-tw&d={}&se=AL&_={}"
+URL = "https://www.tpex.org.tw/web/stock/margin_trading/margin_balance/margin_bal_result.php?l=zh-tw&o=json&d={}&_={}"
 
 # 網頁瀏覽時, 所帶的 request header 參數, 模仿瀏覽器發送 request
 HEADER = {
@@ -14,7 +14,7 @@ HEADER = {
     "Accept-Language": "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7",
     "Connection": "keep-alive",
     "Host": "www.tpex.org.tw",
-    "Referer": "https://www.tpex.org.tw/web/stock/aftertrading/otc_quotes_no1430/stk_wn1430.php?l=zh-tw",
+    "Referer": "https://www.tpex.org.tw/web/stock/margin_trading/margin_balance/margin_bal.php?l=zh-tw",
     "sec-ch-ua": '" Not;A Brand";v="99", "Google Chrome";v="97", "Chromium";v="97"',
     "sec-ch-ua-mobile": "?0",
     "sec-ch-ua-platform": "Windows",
@@ -37,19 +37,31 @@ def crawler(parameters: typing.Dict[str, str]):
     resp = requests.get(
         url=URL.format(crawler_date, crawler_timestamp), headers=HEADER
     )
-    columns = [
+    colname = [
         "stock_id",
         "stock_name",
-        "close",
-        "open",
-        "max",
-        "min",
+        "MarginPurchaseYesterdayBalance",
+        "MarginPurchaseBuy",
+        "MarginPurchaseSell",
+        "MarginPurchaseCashRepayment",
+        "MarginPurchaseTodayBalance",
+        "MarginPurchaseLimit",
+        "ShortSaleYesterdayBalance",
+        "ShortSaleBuy",
+        "ShortSaleSell",
+        "ShortSaleCashRepayment",
+        "ShortSaleTodayBalance",
+        "ShortSaleLimit",
+        "OffsetLoanAndShort",
+        "Note",
     ]
+
     if resp.ok:
         resp_data = json.loads(resp.text)
-        data = pd.DataFrame(resp_data["aaData"])
-        data = data[[0, 1, 2, 4, 5, 6]]
-        data.columns = columns
+        data = resp_data.get("aaData", "")
+        data = pd.DataFrame(data)
+        data = data.drop([7, 8, 15, 16], axis=1)
+        data.columns = colname
         data["date"] = parameters.get("crawler_date", "")
     else:
         data = pd.DataFrame()
