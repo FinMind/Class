@@ -2,7 +2,7 @@ version: '3.8'
 services:
   crawler_scheduler:
     # 設定 image
-    image: linsamtw/class01_crawler:dev
+    image: linsamtw/class01_crawler:6.0
     # 設定 hostname, 用於 flower 上顯示
     hostname: "{{.Node.Hostname}}-{{.Service.Name}}"
     # 啟動 worker 指令
