@@ -59,11 +59,11 @@ gen-release-env-variable:
 
 # 建立 image
 build-image:
-	docker build -f Dockerfile -t linsamtw/class01_crawler:dev .
+	docker build -f Dockerfile -t linsamtw/class01_crawler:4.4 .
 
 # 上傳 image 到 docker hub
 push-image:
-	docker push linsamtw/class01_crawler:dev
+	docker push linsamtw/class01_crawler:4.4
 
 # 部屬爬蟲工人
 deploy-crawler-worker:

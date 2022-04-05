@@ -58,10 +58,10 @@ gen-release-env-variable:
 	VERSION=RELEASE python genenv.py
 
 build-image:
-	docker build -f Dockerfile -t linsamtw/class01_crawler:dev .
+	docker build -f Dockerfile -t linsamtw/class01_crawler:4.3 .
 
 push-image:
-	docker push linsamtw/class01_crawler:dev
+	docker push linsamtw/class01_crawler:4.3
 
-deploy-crawler-worker:
+deploy-crawler-worker: build-image
 	docker stack deploy -c crawler_worker.yml crawler_worker

@@ -62,11 +62,11 @@ gen-release-env-variable:
 
 # 建立 image
 build-image:
-	docker build -f Dockerfile -t linsamtw/class01_crawler:dev .
+	docker build -f Dockerfile -t linsamtw/class01_crawler:6.0 .
 
 # 上傳 image 到 docker hub
 push-image:
-	docker push linsamtw/class01_crawler:dev
+	docker push linsamtw/class01_crawler:6.0
 
 # 建立 image
 build-grafana-image:
@@ -81,7 +81,7 @@ deploy-crawler-worker:
 	docker stack deploy -c crawler_worker.yml crawler_worker
 
 # 部屬 scheduler
-deploy-crawler-scheduler:
+deploy-crawler-scheduler: build-image
 	docker stack deploy -c crawler_scheduler.yml crawler_scheduler
 
 # 啟動 grafana
