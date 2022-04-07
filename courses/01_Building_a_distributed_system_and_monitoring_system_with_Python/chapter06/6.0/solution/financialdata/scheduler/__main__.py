@@ -9,18 +9,12 @@ from loguru import logger
 
 
 def main():
-    today = (
-        datetime.datetime.utcnow() +
-        datetime.timedelta(hours=8)
-        ).strftime("%Y-%m-%d")
     scheduler = BackgroundScheduler(timezone="Asia/Taipei")
     scheduler.add_job(
         id="taiwan_stock_price",
         func=partial(
             update,
             dataset="taiwan_stock_price",
-            start_date=today,
-            end_date=today,
         ),
         trigger="cron",
         hour="15",
