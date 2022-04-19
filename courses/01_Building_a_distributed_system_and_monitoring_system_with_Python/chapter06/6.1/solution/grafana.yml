@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   grafana:
-    image: linsamtw/class06_grafana:6.1
+    image: linsamtw/class01_grafana:6.1
     ports:
       - target: 3000
         published: 3000

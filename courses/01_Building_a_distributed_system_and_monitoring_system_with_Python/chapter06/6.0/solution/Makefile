@@ -70,20 +70,20 @@ push-image:
 
 # 建立 image
 build-grafana-image:
-	docker build -f grafana/Dockerfile -t linsamtw/class06_grafana:6.0 .
+	docker build -f grafana/Dockerfile -t linsamtw/class01_grafana:6.0 .
 
 # 上傳 image 到 docker hub
 push-grafana-image:
-	docker push linsamtw/class06_grafana:6.0
+	docker push linsamtw/class01_grafana:6.0
 
 # 部屬爬蟲工人
 deploy-crawler-worker:
 	docker stack deploy -c crawler_worker.yml crawler_worker
 
 # 部屬 scheduler
-deploy-crawler-scheduler: build-image
+deploy-crawler-scheduler:
 	docker stack deploy -c crawler_scheduler.yml crawler_scheduler
 
 # 啟動 grafana
-deploy-grafana: build-grafana-image push-grafana-image
+deploy-grafana:
 	SHA=${CI_COMMIT_SHORT_SHA} docker stack deploy -c grafana.yml grafana
