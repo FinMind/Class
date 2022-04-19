@@ -5,7 +5,7 @@ volumes:
     
 services:
   prometheus:
-    image: linsamtw/class06_prometheus:6.3
+    image: linsamtw/class01_prometheus:6.3
     volumes:
       - prometheus_data:/prometheus
     ports:
