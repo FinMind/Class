@@ -12,7 +12,7 @@ WORKDIR /FinMindProject/
 RUN VERSION=STAGING python genenv.py
 
 # install package
-RUN pip install pipenv && \
+RUN pip install pipenv==2020.6.2 && \
     pipenv sync
 
 CMD ["/bin/bash"]
