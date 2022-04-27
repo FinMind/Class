@@ -1,0 +1,29 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+requests = "==2.27.1"
+pandas = "==1.1.5"
+2captcha-python = "*"
+opencv-python = "==4.5.3.56"
+solution = {editable = true, path = "."}
+keras = "==2.4.3"
+tensorflow = "==2.2"
+lxml = "*"
+selenium = "==3.141.0"
+loguru = "==0.4.1"
+importlib-metadata = "==4.8.3"
+numpy = "==1.19.3"
+aiocontextvars = "==0.2.2"
+zipp = "==3.5.0"
+protobuf = "==3.17.3"
+werkzeug = "==2.0.1"
+contextvars = "==2.4"
+tqdm = "==4.62.2"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"
