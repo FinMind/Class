@@ -16,7 +16,7 @@ RUN curl https://pyenv.run | bash &&\
 # install pipenv
 RUN /root/.pyenv/bin/pyenv install miniconda3-4.3.30
 # install package
-RUN pip install pipenv &&\
+RUN pip install pipenv==2020.6.2 &&\
     pipenv sync
 
 # selenium
