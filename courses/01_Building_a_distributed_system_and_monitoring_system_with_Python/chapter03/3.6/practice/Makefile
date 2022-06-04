@@ -53,3 +53,6 @@ gen-staging-env-variable:
 # 建立 release 環境變數
 gen-release-env-variable:
 	VERSION=RELEASE python genenv.py
+
+format:
+	black -l 80 financialdata/
